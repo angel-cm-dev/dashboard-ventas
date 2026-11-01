@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard de ventas</title>
+  <meta name="description" content="Dashboard de ventas estático con KPIs, filtros por mes y región, gráficos y tabla ordenable.">
+  <meta name="color-scheme" content="light dark">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230ea5e9'/><path d='M8 22V14M14 22V9M20 22V17M26 22V12' stroke='white' stroke-width='3' stroke-linecap='round'/></svg>">
+  <link rel="stylesheet" href="css/styles.css">
+  <script>
+    try { const t = localStorage.getItem('dashboard-ventas:tema'); if (t) document.documentElement.dataset.theme = t; } catch {}
+  </script>
+  <!-- Chart.js con versión fija -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js" crossorigin="anonymous" defer></script>
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>Dashboard de ventas</h1>
+      <p class="muted">Datos ficticios · Año 2026 · Montos en soles (S/)</p>
+    </div>
+    <form class="filtros" id="filtros" aria-label="Filtros">
+      <label>Mes
+        <select id="filtro-mes" name="mes"><option value="todos">Todos los meses</option></select>
+      </label>
+      <label>Región
+        <select id="filtro-region" name="region"><option value="todos">Todas las regiones</option></select>
+      </label>
+      <button class="btn" type="reset">Limpiar</button>
+      <button class="btn btn-ghost" id="btn-tema" type="button" aria-label="Cambiar tema claro/oscuro"><span aria-hidden="true">◐</span></button>
+    </form>
+  </header>
+
+  <main class="contenido">
+    <p id="mensaje" class="mensaje" role="alert" hidden></p>
+
+    <section class="kpis" aria-label="Indicadores clave" id="kpis">
+      <article class="kpi"><h2>Ingresos</h2><p class="valor" data-kpi="ingresos">—</p><p class="delta" data-delta="ingresos"></p></article>
+      <article class="kpi"><h2>Pedidos</h2><p class="valor" data-kpi="pedidos">—</p><p class="delta" data-delta="pedidos"></p></article>
+      <article class="kpi"><h2>Unidades</h2><p class="valor" data-kpi="unidades">—</p><p class="delta" data-delta="unidades"></p></article>
+      <article class="kpi"><h2>Ticket promedio</h2><p class="valor" data-kpi="ticketPromedio">—</p><p class="delta" data-delta="ticketPromedio"></p></article>
+    </section>
+
+    <section class="graficos">
+      <article class="card ancho">
+        <h2>Ingresos por mes</h2>
+        <div class="chart"><canvas id="chart-mes" role="img" aria-label="Gráfico de líneas de ingresos por mes"></canvas></div>
+      </article>
+      <article class="card">
+        <h2>Ingresos por región</h2>
+        <div class="chart"><canvas id="chart-region" role="img" aria-label="Gráfico de barras de ingresos por región"></canvas></div>
+      </article>
+      <article class="card">
+        <h2>Participación por categoría</h2>
+        <div class="chart"><canvas id="chart-categoria" role="img" aria-label="Gráfico de dona de ingresos por categoría"></canvas></div>
+      </article>
+      <article class="card">
+        <h2>Top 5 productos</h2>
+        <ol class="ranking" id="top-productos"></ol>
+      </article>
+    </section>
+
+    <section class="card">
+      <div class="card-head">
+        <h2 id="titulo-tabla">Detalle de ventas</h2>
+        <span class="muted small" id="resumen-tabla" aria-live="polite"></span>
+      </div>
+      <div class="tabla-wrap">
+        <table class="tabla" aria-labelledby="titulo-tabla">
+          <thead>
+            <tr>
+              <th scope="col" aria-sort="none"><button type="button" data-campo="id">ID</button></th>
+              <th scope="col" aria-sort="descending"><button type="button" data-campo="fecha">Fecha</button></th>
+              <th scope="col" aria-sort="none"><button type="button" data-campo="region">Región</button></th>
+              <th scope="col" aria-sort="none"><button type="button" data-campo="vendedor">Vendedor</button></th>
+              <th scope="col" aria-sort="none"><button type="button" data-campo="producto">Producto</button></th>
+              <th scope="col" aria-sort="none" class="num"><button type="button" data-campo="cantidad">Cant.</button></th>
+              <th scope="col" aria-sort="none" class="num"><button type="button" data-campo="total">Total</button></th>
+            </tr>
+          </thead>
+          <tbody id="tabla-cuerpo"></tbody>
+        </table>
+      </div>
+      <nav class="paginacion" aria-label="Paginación">
+        <button class="btn" type="button" id="pag-anterior">Anterior</button>
+        <span id="pag-info"></span>
+        <button class="btn" type="button" id="pag-siguiente">Siguiente</button>
+      </nav>
+    </section>
+  </main>
+
+  <footer class="footer">
+    Hecho por <a href="https://github.com/angel-cm-dev" rel="noopener">Angel Castañeda Meza</a> · MIT · Gráficos con Chart.js
+  </footer>
+</body>
+</html>

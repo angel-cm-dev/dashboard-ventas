@@ -1,0 +1,18 @@
+{
+  "name": "dashboard-ventas",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Dashboard de ventas estático con KPIs, filtros por mes y región, gráficos Chart.js y tabla ordenable.",
+  "type": "module",
+  "scripts": {
+    "start": "npx --yes serve@14.2.4 -l 5174 .",
+    "serve:py": "python -m http.server 5174",
+    "datos": "node scripts/generar-datos.js",
+    "test": "node --test"
+  },
+  "author": "Angel Castañeda Meza (https://github.com/angel-cm-dev)",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  }
+}
